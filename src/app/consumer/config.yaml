@@ -1,4 +1,4 @@
-task_database: 'D:\git\meus-cods\python\huey\src\app\dev_tasks.db'
+task_database: '..\tasks.db'
 
 consumer_options:
   workers: 5
