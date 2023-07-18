@@ -6,6 +6,7 @@ from huey.api import Result  # noqa: F401
 sys.path.append(str(Path('.').resolve().parent))
 import consumer.tasks.example as tasks
 
+
 def main():
     # create some tasks to just open an url
     # in reality we would generate tasks from an database
@@ -22,6 +23,7 @@ def main():
         print('creating task')
         tasks.open_an_url(url)
     return
+
 
 if __name__ == '__main__':
     main()
