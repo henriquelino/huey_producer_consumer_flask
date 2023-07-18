@@ -9,6 +9,7 @@ After creating your code, run `tox`* which is already configured to lint and for
 
 ## How to configure:
 Use the config file located at [consumer/config.yaml](/src/app/consumer/config.yaml)
+If `task_database` path was changed, update [producer/config.yaml](/src/app/producer/config.yaml) too! Both should use the same database.
 
 ## How to execute:
 Commands should be executed at git root directory!
