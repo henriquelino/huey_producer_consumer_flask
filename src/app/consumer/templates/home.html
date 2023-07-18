@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container">
+  <h1>Service Status is <span id="status">stopped</span></h1>
+  
+  <div class="d-grid gap-2 col-6 mx-auto">
+    <button id="start-btn" type="button" class="btn btn-primary">Start</button>
+    <button id="stop-btn" type="button" class="btn btn-primary" disabled>Stop</button>
+  </div>
+
+  Consumer está no estado: '{{ state }}'
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Periodically update the status and buttons
+    setInterval(function () {
+      $.getJSON('/status', function (data) {
+        var state = data.state;
+        $('#status').text(state);
+        if (state == 'running') {
+          $('#status').removeClass().addClass('text-success');
+          $('#start-btn').prop('disabled', true);
+          $('#stop-btn').prop('disabled', false);
+        } else {
+          $('#status').removeClass().addClass('text-secondary');
+          $('#start-btn').prop('disabled', false);
+          $('#stop-btn').prop('disabled', true);
+        }
+      });
+    }, 5000);
+
+    // Handle the Start button click
+    $('#start-btn').click(function () {
+      $.getJSON('/start', function (data) {
+        $('#status').text(data.state);
+        $('#status').removeClass().addClass('text-success');
+        $('#start-btn').prop('disabled', true);
+        $('#stop-btn').prop('disabled', false);
+      });
+    });
+
+    // Handle the Stop button click
+    $('#stop-btn').click(function () {
+      $.getJSON('/stop', function (data) {
+        $('#status').text(data.state);
+        $('#status').removeClass().addClass('text-secondary');
+        $('#start-btn').prop('disabled', false);
+        $('#stop-btn').prop('disabled', true);
+      });
+    });
+  });
+</script>
+{% endblock %}
