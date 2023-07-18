@@ -3,8 +3,8 @@ import time
 import commons.lib as lib
 from consumer.config import huey
 from loguru import logger
-from huey import crontab
 
+from huey import crontab
 from huey.api import Result
 
 
