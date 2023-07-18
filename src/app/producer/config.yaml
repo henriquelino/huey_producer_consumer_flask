@@ -1,0 +1,8 @@
+task_database: 'D:\git\meus-cods\python\huey\src\app\dev_tasks.db'
+
+log:
+  rotation: '00:00'
+  retention: "30 days"
+  compression: 'zip'
+  level: 'INFO'
+  format: '<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | {thread.name} <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>'
