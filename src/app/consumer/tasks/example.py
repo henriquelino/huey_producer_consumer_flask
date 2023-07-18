@@ -3,6 +3,7 @@ import time
 import commons.lib as lib
 from consumer.config import huey
 from loguru import logger
+from huey import crontab
 
 from huey.api import Result
 
@@ -23,3 +24,8 @@ def open_an_url(url) -> Result:
 
     logger.info(f"done!\n{'-'*60}")
     return
+
+
+@huey.periodic_task(crontab(minute='*'))
+def every_minute():
+    print('This task runs every minute')
