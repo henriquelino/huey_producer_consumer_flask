@@ -3,7 +3,7 @@ import threading
 import time
 from pathlib import Path
 
-from definitions import BASE_DIR, IS_EXE, configfile, huey
+from config import BASE_DIR, IS_EXE, configfile, huey
 from flask import Flask
 from loguru import logger  # noqa: F401
 from models.ConsumerState import CONSUMER_STATE, States

@@ -1,7 +1,7 @@
 import time
 
 import commons.lib as lib
-from consumer.definitions import huey
+from consumer.config import huey
 from loguru import logger
 
 from huey.api import Result
