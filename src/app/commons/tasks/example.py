@@ -1,7 +1,7 @@
 import time
 
 import commons.lib as lib
-from consumer.config import huey
+from commons.config import huey
 from loguru import logger
 
 from huey import crontab

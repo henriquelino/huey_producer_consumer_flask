@@ -28,7 +28,7 @@ def pack_code(
     cmd = [
         'pyarmor', 'pack',
         '--clean',
-        '--name', f'{output_name}.exe',
+        '--name', f'{output_name}_{__version__}.exe',
         '--output', f'{output_dir}',
         '--options', f'''
             --onefile
@@ -73,7 +73,7 @@ def main():
 
     metadata_input_file = BASE_DIR / 'producer_metadata.yaml'
     input_file =  BASE_DIR / 'src' / 'app' /'producer'/ 'main.py'
-    config_file = input_file.parent / 'config.yaml'
+    config_file = input_file.parent.parent / 'config.yaml'
 
 
     package_output_dir = BASE_DIR / 'deployed' / 'producer'

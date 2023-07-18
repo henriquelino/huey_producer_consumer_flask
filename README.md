@@ -1,15 +1,14 @@
 ## How to develop
 This project is a template and uses [huey](https://huey.readthedocs.io) for handling tasks. I've created this template to use in some projects and decided to publish it here as I haven't found much about huey when I started using it.
 
-New tasks can be created under [consumer/tasks](/src/app/consumer/tasks) directory, the task should be imported to producer to generate tasks.
+New tasks can be created under [commons/tasks](/src/app/commons/tasks) directory, the task should be imported to producer to generate tasks.
 
 After creating your code, run `tox`* which is already configured to lint and format your code, then run any tests. Fix anything if needed, that's it
 
 \* If you need to install tox, or don't know what it is, [take a look here](https://tox.wiki)
 
 ## How to configure:
-Use the config file located at [consumer/config.yaml](/src/app/consumer/config.yaml)
-If `task_database` path was changed, update [producer/config.yaml](/src/app/producer/config.yaml) too! Both should use the same database.
+Use the config file located at [config.yaml](/src/app/config.yaml)
 
 ## How to execute:
 Commands should be executed at git root directory!

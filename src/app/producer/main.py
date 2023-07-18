@@ -4,7 +4,7 @@ from pathlib import Path
 from huey.api import Result  # noqa: F401
 
 sys.path.append(str(Path('.').resolve().parent))
-import consumer.tasks.example as tasks
+import commons.tasks.example as tasks
 
 
 def main():

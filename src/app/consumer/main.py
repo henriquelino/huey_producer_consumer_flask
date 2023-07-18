@@ -3,7 +3,6 @@ import threading
 import time
 from pathlib import Path
 
-from config import BASE_DIR, IS_EXE, configfile, huey
 from flask import Flask
 from loguru import logger  # noqa: F401
 from models.ConsumerState import CONSUMER_STATE, States
@@ -12,9 +11,10 @@ from routes.control import controls_bp
 from huey.consumer_options import ConsumerConfig
 
 sys.path.append(str(Path('.').resolve().parent))
+from commons.config import BASE_DIR, IS_EXE, configfile, huey
 from commons.log import setup_logging
 # the tasks should be the last thing loaded
-from consumer.tasks.example import *  # noqa: F401, F403
+from commons.tasks.example import *  # noqa: F401, F403
 
 # --------------------------------------------------
 
@@ -38,7 +38,7 @@ def main():
     # --------------------------------------------------
     # configure flask
 
-    flask_config: dict = configfile.get('app', raise_when_not_exists=True)
+    flask_config: dict = configfile.get('flask', raise_when_not_exists=True)
     flask_config['host'] = flask_config.get('host', '0.0.0.0')
     flask_config['port'] = flask_config.get('port', '5500')
     flask_config['debug'] = flask_config.get('debug', True)
@@ -51,7 +51,6 @@ def main():
     flask_config['use_reloader'] = False
 
     app_thread = threading.Thread(target=lambda: app.run(**flask_config))
-    # app_thread = threading.Thread(target=app.run)
     app_thread.daemon = True
     app_thread.start()
     logger.critical(f"Flask server is running @ '{flask_config['host']}:{flask_config['port']}'")
@@ -62,7 +61,13 @@ def main():
     config.validate()
 
     # --------------------------------------------------
+
+    # change state if we should boot already consuming
+    if configfile.get('consume_on_start', False):
+        CONSUMER_STATE.state = States.running
+
     # handle huey and flask /start /stop
+    # reminder: state changes are handled in routes
     running = False
     while True:
 

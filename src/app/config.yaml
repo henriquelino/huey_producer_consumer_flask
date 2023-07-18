@@ -1,10 +1,15 @@
+# even though tasks.db are in same folder as our config.yaml
+# the consumer/producer arent, so they read .. as this folder
 task_database: '..\tasks.db'
+
+# default state of consumer when boot, started=true/idle=false
+consume_on_start: true 
 
 consumer_options:
   workers: 5
-  worker_type: 'thread'  # or greenlet
+  worker_type: 'thread' # or 'greenlet'
 
-app:
+flask:
   host: 0.0.0.0
   port: 5000
 
