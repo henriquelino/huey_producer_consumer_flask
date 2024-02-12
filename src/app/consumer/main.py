@@ -78,7 +78,7 @@ def main():
             running = True
 
         elif CONSUMER_STATE.state == States.stopped and running:
-            # if the state is stoppend and we are running, we should stop the consumer
+            # if the state is stopped and we are running, we should stop the consumer
             consumer.stop(graceful=True)
             running = False
 
