@@ -40,7 +40,7 @@ def setup_logging(dir: Path, **kwargs):
     log_path = Path(dir.resolve(strict=True) / "logs" / "{time}.log")
     if not log_path.parent.exists():
         log_path.parent.mkdir(parents=True)
-        logger.critical(f"Pasta de logs: '{str(log_path.parent)}' foi criada")
+        logger.critical(f"Log folder created: '{str(log_path.parent)}'")
 
     prompt_config = {'sink': sys.stderr, 'level': LOG_LEVEL}
 
