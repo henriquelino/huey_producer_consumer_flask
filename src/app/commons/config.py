@@ -1,11 +1,10 @@
-import logging
+import platform
 import sys
 from pathlib import Path
 
 import yaml
 from huey import SqliteHuey
-
-logger = logging.getLogger(__name__)
+from loguru import logger  # noqa: F401
 
 # --------------------------------------------------
 
@@ -24,7 +23,13 @@ else:
 with (config_file_dir / 'config.yaml').open('r') as f:
     configfile: dict = yaml.safe_load(f)
 
-db_path = Path(configfile['task_database']).resolve()
+# solves an issue where windows path wouldn't work in unix even using pathlib
+if platform.system() != 'Windows':
+    db_path = configfile['task_database'].replace('\\', '/')
+else:
+    db_path = configfile['task_database'].replace('/', '\\')
+
+db_path = Path(db_path).resolve()
 
 logger.critical(f"Using database in {db_path}")
 huey = SqliteHuey(filename=str(db_path))
