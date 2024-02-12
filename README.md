@@ -27,7 +27,7 @@ This will create some tasks in sqlite db, consumer will proccess them.
 ### consumer
 Change directory to consumer with `cd src/app/consumer` then execute `python main.py`
 
-Consumer will start an flask server on port 5000 (default), [open it](127.0.0.1:5000) on your browser then click on `Start`, you should see on the terminal:
+Consumer will start an flask server on port 5000 (default), [open it](127.0.0.1:5050) on your browser then click on `Start`, you should see on the terminal:
 
 ```
 The following commands are available:
