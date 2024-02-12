@@ -21,3 +21,6 @@ htmlcov/
 chromedriver/
 .venv
 .DS_Store
+*.log
+*-shm
+*-wal
