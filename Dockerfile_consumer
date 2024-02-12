@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy project files to the container
 COPY src/app/commons/ commons/
-COPY src/app/consumer/ app/
+COPY src/app/consumer/ .
 
 COPY requirements.txt .
 
@@ -14,6 +14,6 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
-CMD ["python", "app/main.py"]
+CMD ["python", "main.py"]
 
 # CMD ["ls", "-la"]

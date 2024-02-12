@@ -8,6 +8,7 @@ services:
     volumes:
         - ./docker_mounts/config.yaml:/app/config.yaml:ro
         - ./docker_mounts/db/:/app/db/
+        - ./docker_mounts/consumer_logs/:/app/logs/
     ports:
       - "50000:5000"
 
@@ -18,3 +19,4 @@ services:
     volumes:
         - ./docker_mounts/config.yaml:/app/config.yaml:ro
         - ./docker_mounts/db/:/app/db/
+        - ./docker_mounts/producer_logs/:/app/logs/
