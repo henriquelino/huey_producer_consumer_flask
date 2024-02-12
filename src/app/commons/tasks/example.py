@@ -23,7 +23,7 @@ def get_url(url, **kwargs) -> Result:
 
     # --------------------------------------------------
 
-    if random.randint(0, 5) > 1:
+    if retries_left > 0 and random.randint(0, 5) > 1:
         raise Exception(f"\n{'-'*60}\nRETRYING\n{'-'*60}\n\n\n")
 
     r = requests.get(url)
