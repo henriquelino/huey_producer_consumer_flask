@@ -8,7 +8,7 @@ from pathlib import Path
 from flask import Flask
 from huey.consumer_options import ConsumerConfig
 from loguru import logger  # noqa: F401
-from models.ConsumerState import CONSUMER_STATE, States
+from models.ConsumerState import CONSUMER_STATE
 from routes.control import controls_bp
 
 # add the upper folder to python path to be able to import commons
@@ -23,11 +23,11 @@ from commons.tasks.example import *  # noqa: F401, F403
 def create_flask_app() -> Flask:
 
     if IS_EXE:
-        templates_dir = Path(sys._MEIPASS).resolve() / "templates"
+        assets_dir = Path(sys._MEIPASS).resolve() / "assets"
     else:
-        templates_dir = Path(__file__).parent / "templates"
+        assets_dir = Path(__file__).parent / "assets"
 
-    app = Flask('Consumer', template_folder=templates_dir)
+    app = Flask('Consumer', template_folder=str(assets_dir / 'templates'))
 
     app.register_blueprint(controls_bp)
     return app
@@ -64,20 +64,20 @@ def main():
 
     # change state if we should boot already consuming
     if configfile.get('consume_on_start', False):
-        CONSUMER_STATE.state = States.running
+        CONSUMER_STATE.state = CONSUMER_STATE.States.running
 
     # handle huey and flask /start /stop
     # reminder: state changes are handled in routes
     running = False
     while True:
 
-        if CONSUMER_STATE.state == States.running and not running:
+        if CONSUMER_STATE.state == CONSUMER_STATE.States.running and not running:
             # if the state is for running and we aren't, then we should start the consumer
             consumer = huey.create_consumer(**config.values)
             consumer.start()
             running = True
 
-        elif CONSUMER_STATE.state == States.stopped and running:
+        elif CONSUMER_STATE.state == CONSUMER_STATE.States.stopped and running:
             # if the state is stopped and we are running, we should stop the consumer
             consumer.stop(graceful=True)
             running = False
