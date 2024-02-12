@@ -5,18 +5,6 @@ from pathlib import Path
 from loguru import logger
 
 
-class ThreadLogFilter(logging.Filter):
-    """
-    This filter only show log entries for specified thread name
-    """
-
-    def __init__(self, *args, **kwargs):
-        logging.Filter.__init__(self, *args, **kwargs)
-
-    def filter(self, record):
-        print(f"{record = }")
-
-
 class InterceptHandler(logging.Handler):
 
     def emit(self, record):
@@ -73,24 +61,6 @@ def setup_logging(dir: Path, **kwargs):
     logger.add(**prompt_config)
     logger.add(**file_config)
 
-    # logger.configure(
-    #     handlers=[
-    #         dict(sink=sys.stderr, level=LOG_LEVEL),
-
-    #         dict(sink=log_path,
-    #              rotation=kwargs.get('rotation', "00:00"),
-    #              compression=kwargs.get('compression', "zip"),
-    #              retention=kwargs.get('retention', "30 days"),
-    #              level=LOG_LEVEL,
-    #              enqueue=True,
-    #              format='<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | {thread.name} <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>',
-    #              filter=ThreadLogFilter
-    #         )
-    #     ]
-    # )  # yapf: disable
-
     logging.getLogger("requests").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
-    logging.getLogger("selenium.webdriver.remote.remote_connection").setLevel(logging.WARNING)
-    logging.getLogger("selenium_tkit").setLevel(logging.CRITICAL)
     logging.getLogger("werkzeug").setLevel(logging.CRITICAL)
