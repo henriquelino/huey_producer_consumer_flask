@@ -1,31 +1,41 @@
-import time
+import random
 
-import commons.lib as lib
+import requests
 from commons.config import huey
-from loguru import logger
-
 from huey import crontab
 from huey.api import Result
+from loguru import logger
 
 
-@huey.task(retries=5)
-def open_an_url(url) -> Result:
-    logger.info(f"NEW TASK INCOMING! -> '{url}'")
-    # if random.randint(0, 5) > 1:
-    #     raise Exception(f"RETRYING\n{'-'*60}\n\n\n")
+@huey.task(retries=5, context=True)
+def get_url(url, **kwargs) -> Result:
+    logger.debug(f"{kwargs['task'].__dict__ = }")
 
-    driver = lib.create_chrome()
+    # --------------------------------------------------
 
-    r = driver.open_url(url)
-    if r is False:
-        raise Exception(f"Could not open '{url}'")
+    task_data = kwargs['task']
+    task_id = task_data.id
+    retries_left = task_data.retries
 
-    time.sleep(15)
+    # --------------------------------------------------
 
-    logger.info(f"done!\n{'-'*60}")
-    return
+    logger.info(f"\n{'-'*60}\n\tNEW TASK INCOMING! -> id='{task_id}'; Retries left='{retries_left}'\n'{url = }'\n{kwargs = }\n{'-'*60}")
+
+    # --------------------------------------------------
+
+    if random.randint(0, 5) > 1:
+        raise Exception(f"\n{'-'*60}\nRETRYING\n{'-'*60}\n\n\n")
+
+    r = requests.get(url)
+    r.raise_for_status()
+
+    # --------------------------------------------------
+
+    logger.info(f"[{task_id}] done!\n{'-'*60}")
+    return r
 
 
 @huey.periodic_task(crontab(minute='*'))
 def every_minute():
-    print('This task runs every minute')
+    logger.info('This task runs every minute')
+    return
