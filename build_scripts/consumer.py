@@ -8,7 +8,7 @@ SRC_DIR = BASE_DIR / 'src'
 
 sys.path.append(str(SRC_DIR / 'app' / 'consumer'))
 sys.path.append(str(SRC_DIR))
-from app.consumer.main import __version__
+from consumer.main import __version__
 
 
 def main():

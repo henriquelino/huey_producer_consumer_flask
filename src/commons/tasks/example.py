@@ -1,10 +1,11 @@
 import random
 
 import requests
-from commons.config import huey
 from huey import crontab
 from huey.api import Result
 from loguru import logger
+
+from commons.config import huey
 
 
 @huey.task(retries=5, context=True)

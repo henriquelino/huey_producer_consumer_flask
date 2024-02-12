@@ -1,4 +1,4 @@
-# when running on vs-code, this path is the src/app/ folder,
+# when running on vs-code, this path is the src folder,
 # if running on .exe, this will be the same folder as the exe is
 task_database: '..\tasks.db'
 

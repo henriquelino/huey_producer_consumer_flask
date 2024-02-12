@@ -2,7 +2,7 @@ import json
 
 from loguru import logger  # noqa: F401
 
-from src.app.consumer.main import create_flask_app
+from src.consumer.main import create_flask_app
 
 
 class TestEndpoints:

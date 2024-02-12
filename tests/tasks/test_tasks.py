@@ -2,8 +2,8 @@ import requests
 from huey.api import Result
 from loguru import logger  # noqa: F401
 
-from src.app.commons import huey
-from src.app.commons.tasks import every_minute, get_url
+from src.commons import huey
+from src.commons.tasks import every_minute, get_url
 
 
 class TestTasks:

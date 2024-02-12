@@ -5,8 +5,8 @@ FROM python:3.9-alpine3.19
 WORKDIR /app
 
 # Copy project files to the container
-COPY src/app/commons/ commons/
-COPY src/app/producer/ .
+COPY src/commons/ commons/
+COPY src/producer/ .
 
 COPY requirements.txt .
 
