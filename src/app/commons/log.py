@@ -37,7 +37,7 @@ def setup_logging(dir: Path, **kwargs):
 
     # configure loguru
 
-    log_path = Path(dir / "logs" / "{time}.log").resolve()
+    log_path = Path(dir.resolve(strict=True) / "logs" / "{time}.log")
     if not log_path.parent.exists():
         log_path.parent.mkdir(parents=True)
         logger.critical(f"Pasta de logs: '{str(log_path.parent)}' foi criada")
