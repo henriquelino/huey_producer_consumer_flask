@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile_consumer
+    volumes:
+        - ./docker_mounts/config.yaml:/app/config.yaml:ro
+        - ./docker_mounts/db/:/app/db/
+    ports:
+      - "50000:5000"
+
+  producer:
+    build:
+      context: .
+      dockerfile: Dockerfile_producer
+    volumes:
+        - ./docker_mounts/config.yaml:/app/config.yaml:ro
+        - ./docker_mounts/db/:/app/db/

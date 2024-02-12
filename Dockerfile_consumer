@@ -1,0 +1,19 @@
+# Use a Python 3.9 base image
+FROM python:3.9-alpine3.19
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy project files to the container
+COPY src/app/commons/ commons/
+COPY src/app/consumer/ app/
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
+
+EXPOSE 5000
+
+CMD ["python", "app/main.py"]
+
+# CMD ["ls", "-la"]

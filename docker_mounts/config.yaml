@@ -1,0 +1,21 @@
+# when running on vs-code, this path is the src/app/ folder,
+# if running on .exe, this will be the same folder as the exe is
+task_database: './db/tasks.db'
+
+# default state of consumer when boot, started=true/idle=false
+consume_on_start: true 
+
+consumer_options:
+  workers: 5
+  worker_type: 'thread' # or 'greenlet'
+
+flask:
+  host: 0.0.0.0
+  port: 5000
+
+log:
+  rotation: '00:00'
+  retention: "30 days"
+  compression: 'zip'
+  level: 'INFO'
+  format: '<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | {thread.name} <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>'
