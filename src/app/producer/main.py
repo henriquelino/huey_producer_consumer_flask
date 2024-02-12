@@ -1,15 +1,13 @@
 __version__ = '0.1.0'
 
-import platform
 import sys
 from pathlib import Path
 
 from huey.api import Result  # noqa: F401
 from loguru import logger
 
-if platform.system() == 'Windows':
-    # add the upper folder to python path to be able to import commons folder
-    sys.path.append(str(Path(__file__).resolve().parent.parent))
+# add the upper folder to python path to be able to import commons folder
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import commons.tasks as tasks
 from commons import BASE_DIR, configfile

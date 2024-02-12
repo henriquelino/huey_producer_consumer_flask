@@ -1,6 +1,5 @@
 __version__ = "0.1.0"
 
-import platform
 import sys
 import threading
 import time
@@ -12,9 +11,8 @@ from loguru import logger  # noqa: F401
 from models.ConsumerState import CONSUMER_STATE, States
 from routes.control import controls_bp
 
-if platform.system() == 'Windows':
-    # add the upper folder to python path to be able to import commons
-    sys.path.append(str(Path(__file__).resolve().parent.parent))
+# add the upper folder to python path to be able to import commons
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 from commons.config import BASE_DIR, IS_EXE, configfile, huey
 from commons.log import setup_logging
 from commons.tasks.example import *  # noqa: F401, F403
