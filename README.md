@@ -46,4 +46,13 @@ When using `tox` to test, coverage report are generated as well, this can be ser
 in project root, then [open it in your browser](127.0.0.1:8000)
 
 ## Builds
-The current code was tested on Windows 11 and Python 3.8, using `tox -e build_producer_consumer_exe` will use `build_scripts` to to generate two .exe files in the deploy folder using pyarmor. I'm further testing with other OSes and new deploy options like docker.
+The current code was tested on Windows 11 and Python 3.8, using `tox -e build_producer_consumer_exe` will use `build_scripts` to to generate two .exe files in the deploy folder using pyarmor. 
+
+## Docker run
+Run using `docker compose up -d --build`, then on terminal run `docker ps` to view running images:
+```terminal
+CONTAINER ID   IMAGE                                   COMMAND                  CREATED         STATUS                 PORTS                     NAMES
+2627969d19d5   huey_producer_consumer_flask-consumer   "python app/main.py"     3 minutes ago   Up 3 minutes           0.0.0.0:50000->5000/tcp   huey_producer_consumer_flask-consumer-1
+
+```
+as producer dies rather quickly its normal to have only the consumer running
