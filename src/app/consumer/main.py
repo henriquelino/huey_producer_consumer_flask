@@ -1,44 +1,46 @@
+__version__ = "0.1.0"
+
+import platform
 import sys
 import threading
 import time
 from pathlib import Path
 
 from flask import Flask
+from huey.consumer_options import ConsumerConfig
 from loguru import logger  # noqa: F401
 from models.ConsumerState import CONSUMER_STATE, States
 from routes.control import controls_bp
 
-from huey.consumer_options import ConsumerConfig
-
-sys.path.append(str(Path('.').resolve().parent))
+if platform.system() == 'Windows':
+    # add the upper folder to python path to be able to import commons
+    sys.path.append(str(Path(__file__).resolve().parent.parent))
 from commons.config import BASE_DIR, IS_EXE, configfile, huey
 from commons.log import setup_logging
-# the tasks should be the last thing loaded
 from commons.tasks.example import *  # noqa: F401, F403
 
 # --------------------------------------------------
 
-if IS_EXE:
-    templates_dir = Path(sys._MEIPASS).resolve() / "templates"
-else:
-    templates_dir = BASE_DIR / "templates"
 
-# --------------------------------------------------
+def create_flask_app() -> Flask:
 
-app = Flask('Consumer', template_folder=templates_dir)
+    if IS_EXE:
+        templates_dir = Path(sys._MEIPASS).resolve() / "templates"
+    else:
+        templates_dir = Path(__file__).parent / "templates"
 
-app.register_blueprint(controls_bp)
+    app = Flask('Consumer', template_folder=templates_dir)
 
-# --------------------------------------------------
+    app.register_blueprint(controls_bp)
+    return app
 
 
 def main():
     setup_logging(BASE_DIR, **configfile.get('log', {}))
 
-    # --------------------------------------------------
-    # configure flask
+    app = create_flask_app()
 
-    flask_config: dict = configfile.get('flask', raise_when_not_exists=True)
+    flask_config: dict = configfile['flask']
     flask_config['host'] = flask_config.get('host', '0.0.0.0')
     flask_config['port'] = flask_config.get('port', '5500')
     flask_config['debug'] = flask_config.get('debug', True)
