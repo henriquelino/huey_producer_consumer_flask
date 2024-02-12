@@ -11,14 +11,11 @@ from loguru import logger  # noqa: F401
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):  # pragma: no cover
     # if it is an .exe package
     IS_EXE = True
-    BASE_DIR = Path(sys.executable).parent
-    # load config file from the same folder of the executable
-    config_file_dir = BASE_DIR
+    config_file_dir = Path(sys.executable).parent
 else:
     IS_EXE = False
-    BASE_DIR = Path(__file__).parent
     # load config file from upper folder, this should be the commons folder
-    config_file_dir = BASE_DIR.parent
+    config_file_dir = Path(__file__).parent.parent
 
 with (config_file_dir / 'config.yaml').open('r') as f:
     configfile: dict = yaml.safe_load(f)

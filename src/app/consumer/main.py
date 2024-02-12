@@ -13,7 +13,7 @@ from routes.control import controls_bp
 
 # add the upper folder to python path to be able to import commons
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from commons.config import BASE_DIR, IS_EXE, configfile, huey
+from commons.config import IS_EXE, configfile, huey
 from commons.log import setup_logging
 from commons.tasks.example import *  # noqa: F401, F403
 
@@ -34,7 +34,7 @@ def create_flask_app() -> Flask:
 
 
 def main():
-    setup_logging(BASE_DIR, **configfile.get('log', {}))
+    setup_logging(Path(__file__).parent, **configfile.get('log', {}))
 
     app = create_flask_app()
 

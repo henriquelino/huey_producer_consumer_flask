@@ -1,1 +1,1 @@
-from .config import BASE_DIR, configfile, huey
+from .config import configfile, huey
