@@ -30,3 +30,11 @@ db_path = Path(db_path).resolve()
 
 logger.critical(f"Using database in {db_path}")
 huey = SqliteHuey(filename=str(db_path))
+
+@huey.pre_execute()
+def pre_execute_hook(task):
+    logger.info(f"Pre execute on {task = }")
+
+@huey.post_execute()
+def post_execute_hook(task, task_value, exc):
+    logger.info(f"Post execute on {task = }. {task_value = }. {exc = }")
