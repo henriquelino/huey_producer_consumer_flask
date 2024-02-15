@@ -22,7 +22,7 @@ class Consumer(object):
     def __init__(self, initial_state: States = States.running):
 
         self.initial = self.States.stopped
-        self.machine = Machine(model=self, states=[s.value for s in self.States], initial=initial_state)
+        self.machine = Machine(model=self, states=[s.value for s in self.States], initial=initial_state, auto_transitions=True,)
 
         self.machine.add_transition(trigger='start', source='stopped', dest='running')
 
@@ -30,7 +30,6 @@ class Consumer(object):
 
     @classmethod
     def start_consumer(self, huey: Huey, config: dict):
-
         def inner():
             try:
                 self.huey_consumer = huey.create_consumer(**config)
@@ -49,4 +48,4 @@ class Consumer(object):
             self.huey_consumer.stop(graceful=True)
 
 
-STATE_MACHINE = Consumer(initial_state=Consumer.States.running)
+STATE_MACHINE = Consumer(initial_state=Consumer.States.stopped)

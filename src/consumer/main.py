@@ -43,6 +43,9 @@ def main():
     STATE_MACHINE.machine.get_transitions('start')[0].after = [STATE_MACHINE.start_consumer(huey, config.values)]
     STATE_MACHINE.machine.get_transitions('stop')[0].after = [STATE_MACHINE.stop_consumer]
 
+    if configfile.get('consume_on_start', True) is True:
+        STATE_MACHINE.start()
+
     # --------------------------------------------------
 
     app = create_flask_app()
