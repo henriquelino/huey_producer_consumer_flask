@@ -1,14 +1,12 @@
 __version__ = "0.1.0"
 
 import sys
-import threading
-import time
 from pathlib import Path
 
 from flask import Flask
 from huey.consumer_options import ConsumerConfig
 from loguru import logger  # noqa: F401
-from models.ConsumerState import CONSUMER_STATE
+from models import STATE_MACHINE
 from routes.control import controls_bp
 
 # add the upper folder to python path to be able to import commons
@@ -36,55 +34,30 @@ def create_flask_app() -> Flask:
 def main():
     setup_logging(Path(__file__).parent, **configfile.get('log', {}))
 
+    # --------------------------------------------------
+    # configure huey
+    config = ConsumerConfig(**configfile.get('consumer_options', {}))
+    config.validate()
+
+    # add callbacks to state changes
+    STATE_MACHINE.machine.get_transitions('start')[0].after = [STATE_MACHINE.start_consumer(huey, config.values)]
+    STATE_MACHINE.machine.get_transitions('stop')[0].after = [STATE_MACHINE.stop_consumer]
+
+    # --------------------------------------------------
+
     app = create_flask_app()
 
     flask_config: dict = configfile['flask']
     flask_config['host'] = flask_config.get('host', '0.0.0.0')
     flask_config['port'] = flask_config.get('port', '5500')
     flask_config['debug'] = flask_config.get('debug', True)
+    flask_config['use_reloader'] = flask_config.get('use_reloader', False)
 
     if IS_EXE:
-        # dont run in debug mode if is an .exe even if config file told to
         flask_config['debug'] = False
 
-    # as we are running flask in another thread, we cant use reloader
-    flask_config['use_reloader'] = False
-
-    app_thread = threading.Thread(target=lambda: app.run(**flask_config))
-    app_thread.daemon = True
-    app_thread.start()
-    logger.critical(f"Flask server is running @ '{flask_config['host']}:{flask_config['port']}'")
-
-    # --------------------------------------------------
-    # configure huey
-    config = ConsumerConfig(**configfile.get('consumer_options', {}))
-    config.validate()
-
-    # --------------------------------------------------
-
-    # change state if we should boot already consuming
-    if configfile.get('consume_on_start', False):
-        CONSUMER_STATE.state = CONSUMER_STATE.States.running
-
-    # handle huey and flask /start /stop
-    # reminder: state changes are handled in routes
-    running = False
-    while True:
-
-        if CONSUMER_STATE.state == CONSUMER_STATE.States.running and not running:
-            # if the state is for running and we aren't, then we should start the consumer
-            consumer = huey.create_consumer(**config.values)
-            consumer.start()
-            running = True
-
-        elif CONSUMER_STATE.state == CONSUMER_STATE.States.stopped and running:
-            # if the state is stopped and we are running, we should stop the consumer
-            consumer.stop(graceful=True)
-            running = False
-
-        else:
-            # if the state didn't change, we do nothing and wait for a second
-            time.sleep(1)
+    app.run(**flask_config)
+    return
 
 
 if __name__ == '__main__':
