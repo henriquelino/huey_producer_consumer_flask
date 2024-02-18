@@ -2,11 +2,12 @@ import os
 import sys
 from pathlib import Path
 
-# expand python path so modules can import as if running on terminal/exe
-sys.path.append(str(Path('.').resolve()))
-sys.path.append(str(Path('.').resolve() / 'src'))
-sys.path.append(str(Path('.').resolve() / 'src' / 'consumer'))
-sys.path.append(str(Path('.').resolve() / 'src' / 'producer'))
+cwd = Path('.').resolve()
+src = cwd / 'src'
+sys.path.append(str(src))
+sys.path.append(str(src / 'consumer'))
+sys.path.append(str(src / 'producer'))
+os.chdir(str(src))
 
 if sys.platform == "win32":
     # without this tox couldn't find chrome binary, if using selenium
