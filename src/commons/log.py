@@ -41,6 +41,8 @@ def setup_logging(dir: Path, **kwargs):
     if not log_path.parent.exists():
         log_path.parent.mkdir(parents=True)
         logger.critical(f"Log folder created: '{str(log_path.parent)}'")
+    else:
+        logger.critical(f"Logging into: '{str(log_path)}'")
 
     prompt_config = {'sink': sys.stderr, 'level': LOG_LEVEL}
 
