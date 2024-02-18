@@ -19,11 +19,13 @@ from commons.log import setup_logging
 
 BASE_DIR = Path(sys.executable).resolve().parent if IS_EXE else Path('.').resolve()
 
+
 def jsondefault(v):
     try:
         return v.__dict__
     except:  # noqa: E722
         return str(v)
+
 
 def main():
     setup_logging(BASE_DIR, **configfile.get('log', {}))
