@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, render_template
 from models import STATE_MACHINE
 
-
 controls_bp = Blueprint('control', __name__)
 
 

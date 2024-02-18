@@ -3,7 +3,6 @@ from pathlib import Path
 
 from helpers import build
 
-
 BASE_DIR = Path(__file__).parent.parent.resolve()
 SRC_DIR = BASE_DIR / 'src'
 

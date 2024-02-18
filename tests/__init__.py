@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 
-
 cwd = Path('.').resolve()
 src = cwd / 'src'
 sys.path.append(str(src))
