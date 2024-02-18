@@ -1,9 +1,11 @@
+import time
+
 import requests
 from huey.api import Result
 from loguru import logger  # noqa: F401
 
-from src.commons import huey
-from src.commons.tasks import every_minute, get_url
+from commons import huey
+from commons.tasks import every_minute, get_url
 
 
 class TestTasks:
@@ -13,13 +15,28 @@ class TestTasks:
         huey.immediate = True
 
     def test__get_url(self):
-        # idk why this should run with huey.enqueue, without it the function never runs
-        # as this task use context, cant run raw function with get_url.func(...)
-        r: Result = huey.enqueue(get_url.s('https://www.google.com'))
+        r: Result = get_url('https://www.google.com')
         r = r.get(blocking=True, timeout=10)
         assert isinstance(r, requests.Response) is True
 
     def test__every_minute(self):
-        # this function does not use context, but are periodic, so I couldnt run with huey.enqueue and get its return
-        r = every_minute.func()
-        assert r is None
+        # logger.debug(f"{huey._registry.__dict__ = }")
+        # logger.debug(f"{huey.read_periodic(None) = }")
+        # logger.debug(f"{huey.scheduled() = }")
+        # logger.debug(f"{huey.scheduled_count() = }")
+        # logger.debug(f"{huey.pending() = }")
+        # logger.debug(f"{huey.pending_count() = }")
+
+        r: Result = every_minute()
+
+        begin = time.perf_counter()
+        while (time.perf_counter() - begin) < 10:
+            r = huey.get('every_minute__return', peek=True)
+            if r is not True:
+                time.sleep(1)
+                continue
+            break
+        else:
+            raise TimeoutError
+
+        assert r is True
