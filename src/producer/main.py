@@ -12,9 +12,12 @@ from loguru import logger
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import commons.tasks as tasks
-from commons import configfile
+from commons.config import IS_EXE, configfile
 from commons.log import setup_logging
 
+# --------------------------------------------------
+
+BASE_DIR = Path(sys.executable).resolve().parent if IS_EXE else Path('.').resolve()
 
 def jsondefault(v):
     try:
@@ -22,9 +25,8 @@ def jsondefault(v):
     except:  # noqa: E722
         return str(v)
 
-
 def main():
-    setup_logging(Path(__file__).parent, **configfile.get('log', {}))
+    setup_logging(BASE_DIR, **configfile.get('log', {}))
     # create some tasks to just open an url
     # in reality we would generate tasks from an database
     # just sending the PK of the task

@@ -17,6 +17,8 @@ from commons.tasks.example import *  # noqa: F401, F403
 
 # --------------------------------------------------
 
+BASE_DIR = Path(sys.executable).resolve().parent if IS_EXE else Path('.').resolve()
+
 
 def create_flask_app() -> Flask:
 
@@ -32,7 +34,7 @@ def create_flask_app() -> Flask:
 
 
 def main():
-    setup_logging(Path(__file__).parent, **configfile.get('log', {}))
+    setup_logging(BASE_DIR, **configfile.get('log', {}))
 
     # --------------------------------------------------
     # configure huey
