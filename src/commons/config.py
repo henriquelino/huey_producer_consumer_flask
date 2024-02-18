@@ -11,7 +11,7 @@ from loguru import logger  # noqa: F401
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):  # pragma: no cover
     # if it is an .exe package
     IS_EXE = True
-    config_file_dir = Path(sys.executable).parent
+    config_file_dir = Path(sys.executable).resolve().parent
 else:
     IS_EXE = False
     # load config file from upper folder, this should be the commons folder
