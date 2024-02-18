@@ -36,7 +36,11 @@ def get_url(url, **kwargs) -> Result:
     return r
 
 
-@huey.periodic_task(crontab(minute='*'))
-def every_minute():
-    logger.info('This task runs every minute')
+@huey.periodic_task(crontab(minute='*'), context=True)
+def every_minute(**kwargs):
+    logger.debug(f"{kwargs['task'].__dict__ = }")
+
+    logger.info("This task runs every minute")
+
+    huey.put('every_minute__return', True)
     return
