@@ -1,0 +1,20 @@
+# Force LF line endings and detect text files automatically so future commits
+# don't accidentally land as CRLF or UTF-16 (this repo had a UTF-16 requirements.txt before).
+* text=auto eol=lf
+
+# Treat shell/Python/YAML/Markdown explicitly as text just in case.
+*.py     text eol=lf
+*.sh     text eol=lf
+*.yaml   text eol=lf
+*.yml    text eol=lf
+*.md     text eol=lf
+*.html   text eol=lf
+*.toml   text eol=lf
+*.txt    text eol=lf
+
+# Lock files / binary artifacts stay binary.
+*.db     binary
+*.png    binary
+*.jpg    binary
+*.ico    binary
+*.zip    binary

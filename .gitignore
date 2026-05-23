@@ -18,7 +18,6 @@ container/
 htmlcov/
 /.env
 *.db
-chromedriver/
 .venv
 .DS_Store
 *.log
