@@ -10,7 +10,7 @@ services:
         - ./docker_mounts/db/:/app/db/
         - ./docker_mounts/consumer_logs/:/app/logs/
     ports:
-      - "50000:5000"
+      - "50050:5050"
 
   producer:
     build:
