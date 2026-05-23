@@ -24,6 +24,7 @@ def get_url(url, **kwargs) -> Result:
 
     # --------------------------------------------------
 
+    # demo: raise ~67% of the time while retries remain, so Huey's retry path is exercised end-to-end
     if retries_left > 0 and random.randint(0, 5) > 1:
         raise Exception(f"\n{'-'*60}\nRETRYING\n{'-'*60}\n\n\n")
 
